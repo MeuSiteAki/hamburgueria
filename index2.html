@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido de Hambúrguer</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<style>
+    .into{ transform: translateX(0%); animation: pingar 4s forwards;}
+    @keyframes pingar {0% {top: -100px;opacity: 0;}100% {top: 50%;opacity: 1;}}
+    h1{font-family: Verdana;}
+    h3{font-family: Verdana;}
+    p{font-family: Verdana; font-weight: 600;}
+    .btn-add{padding: 5px; border-radius: 10px; cursor: pointer; font-size: 15px; background-color: rgb(0, 179, 0); color: white;}
+    .btn-rem{padding: 5px; border-radius: 10px; cursor: pointer; font-size: 15px; background-color: red; color: white;}
+    .btn-wha{background-color: #17801b; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 15px;}
+    .btn-wha1{background-color: #ff0000; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 15px;}
+    .total{font-family: Verdana; font-size: 25px; color: blue;}
+    .desc{font-family: Verdana;}
+    .bebidas{background: linear-gradient(90deg, orange, black, white); color: white;}
+    .sec { font-size: 30px;font-family: Verdana;font-weight: 600;margin-left: 10px;}
+    .car2 {width: 3%;position: fixed;position: fixed;width: 40px;height: 40px;bottom: 130px;right: 15px;text-align: center;font-size: 30px;z-index: 1000;background-color: rgb(165, 164, 164);border-radius: 30%;}
+</style>
+<body>
+    <marquee class="into" scrollamount="0" style="font-family: Bree Serif; font-weight: 700; font-size: 400%; 
+        box-shadow: 10px 10px 20px rgb(0, 0, 0), -10px -10px 20px rgb(0, 0, 0);background: linear-gradient(90deg, rgb(0, 0, 0), black, rgb(0, 0, 0));"><img
+                style="width: 70%; margin-left: 15%;" src="hamlogo.png"></marquee>
+    <h3>Ingredientes:</h3>
+    <marquee class="bebidas" scrollamount="8" direction="right"><i class="sec">PÃES</i></marquee>
+    <p style="border-bottom: 5px solid rgb(143, 131, 131);">Pão de hambúrguer (as duas partes): R$2,00</p>
+    <button class="btn-add" id="btnMaisPao">adicionar</button>
+    <button class="btn-rem" id="btnMenosPao">remover</button>
+    <p style="border-bottom: 5px solid rgb(143, 131, 131);">Pão de sal (as duas partes): R$2,00</p>
+    <button class="btn-add" id="btnMaisPao1">adicionar</button>
+    <button class="btn-rem" id="btnMenosPao1">remover</button>
+    <p style="border-bottom: 5px solid rgb(143, 131, 131);">Pão de forma (as duas partes): R$1,00</p>
+    <button class="btn-add" id="btnMaisPao2">adicionar</button>
+    <button class="btn-rem" id="btnMenosPao2">remover</button>
+    <p style="border-bottom: 5px solid rgb(143, 131, 131);">Pão de forma ao leite (as duas partes): R$2,00</p>
+    <button class="btn-add" id="btnMaisPao3">adicionar</button>
+    <button class="btn-rem" id="btnMenosPao3">remover</button>
+    <br><br><marquee class="bebidas" scrollamount="8" direction="right"><i class="sec">CARNES</i></marquee>
+    <p style="border-bottom: 5px solid rgb(143, 131, 131);">Carne: R$4,00</p>
+    <button class="btn-add" id="btnMaisCarne">adicionar</button>
+    <button class="btn-rem" id="btnMenosCarne">remover</button>
+    <p style="border-bottom: 5px solid rgb(143, 131, 131);">Filé de frango: R$4,00</p>
+    <button class="btn-add" id="btnMaisfilef">adicionar</button>
+    <button class="btn-rem" id="btnMenosfilef">remover</button>
+    <p style="border-bottom: 5px solid rgb(143, 131, 131);">Filé: R$6,00</p>
+    <button class="btn-add" id="btnMaisfilef1">adicionar</button>
+    <button class="btn-rem" id="btnMenosfilef1">remover</button>
+    <br><br><marquee class="bebidas" scrollamount="8" direction="right"><i class="sec">ACOMPANHAMENTOS</i></marquee>
+    <p style="border-bottom: 5px solid rgb(143, 131, 131);">Queijo: R$2,00</p>
+    <button class="btn-add" id="btnMaisQueijo">adicionar</button>
+    <button class="btn-rem" id="btnMenosQueijo">remover</button>
+    <p style="border-bottom: 5px solid rgb(143, 131, 131);">Presunto: R$2,00</p>
+    <button class="btn-add" id="btnMaisPresunto">adicionar</button>
+    <button class="btn-rem" id="btnMenosPresunto">remover</button>
+    <p style="border-bottom: 5px solid rgb(143, 131, 131);">Bacon: R$3,00</p>
+    <button class="btn-add" id="btnMaisBacon">adicionar</button>
+    <button class="btn-rem" id="btnMenosBacon">remover</button>
+    <p style="border-bottom: 5px solid rgb(143, 131, 131);">Calabresa: R$3,00</p>
+    <button class="btn-add" id="btnMaiscala">adicionar</button>
+    <button class="btn-rem" id="btnMenoscala">remover</button>
+    <p style="border-bottom: 5px solid rgb(143, 131, 131);">Ovo: R$2,00</p>
+    <button class="btn-add" id="btnMaisovo">adicionar</button>
+    <button class="btn-rem" id="btnMenosovo">remover</button>
+    <p style="border-bottom: 5px solid rgb(143, 131, 131);">Salsicha: R$1,00</p>
+    <button class="btn-add" id="btnMaissal">adicionar</button>
+    <button class="btn-rem" id="btnMenossal">remover</button>
+    <br><br><marquee class="bebidas" scrollamount="8" direction="right"><i class="sec">CONDIMENTOS</i></marquee>
+    <p style="border-bottom: 5px solid rgb(143, 131, 131);">Cheddar: R$2,00</p>
+    <button class="btn-add" id="btnMaische">adicionar</button>
+    <button class="btn-rem" id="btnMenosche">remover</button>
+    <p style="border-bottom: 5px solid rgb(143, 131, 131);">Catupiry: R$2,00</p>
+    <button class="btn-add" id="btnMaiscat">adicionar</button>
+    <button class="btn-rem" id="btnMenoscat">remover</button>
+    <p style="border-bottom: 5px solid rgb(143, 131, 131);">Barbecue: R$2,00</p>
+    <button class="btn-add" id="btnMaisbar">adicionar</button>
+    <button class="btn-rem" id="btnMenosbar">remover</button>
+    <p style="border-bottom: 5px solid rgb(143, 131, 131);">Mostarda: R$1,00</p>
+    <button class="btn-add" id="btnMaismos">adicionar</button>
+    <button class="btn-rem" id="btnMenosmos">remover</button>
+    <p style="border-bottom: 5px solid rgb(143, 131, 131);">Maionese temperada: R$1,00</p>
+    <button class="btn-add" id="btnMaismaio">adicionar</button>
+    <button class="btn-rem" id="btnMenosmaio">remover</button>
+    <br><br><marquee class="bebidas" scrollamount="8" direction="right"><i class="sec">LEGUMES/VERDURAS</i></marquee>
+    <p style="border-bottom: 5px solid rgb(143, 131, 131);">Alface: R$1,00</p>
+    <button class="btn-add" id="btnMaisalf">adicionar</button>
+    <button class="btn-rem" id="btnMenosalf">remover</button>
+    <p style="border-bottom: 5px solid rgb(143, 131, 131);">Tomate: R$1,00</p>
+    <button class="btn-add" id="btnMaistom">adicionar</button>
+    <button class="btn-rem" id="btnMenostom">remover</button>
+    <p style="border-bottom: 5px solid rgb(143, 131, 131);">Cebola: R$2,00</p>
+    <button class="btn-add" id="btnMaisceb">adicionar</button>
+    <button class="btn-rem" id="btnMenosceb">remover</button>
+    <p style="border-bottom: 5px solid rgb(143, 131, 131);">Milho: R$1,00</p>
+    <button class="btn-add" id="btnMaismil">adicionar</button>
+    <button class="btn-rem" id="btnMenosmil">remover</button>
+    <p style="border-bottom: 5px solid rgb(143, 131, 131);">Batata palha: R$1,00</p>
+    <button class="btn-add" id="btnMaisbat">adicionar</button>
+    <button class="btn-rem" id="btnMenosbat">remover</button>
+    <p style="border-bottom: 5px solid rgb(143, 131, 131);">Banana: R$2,00</p>
+    <button class="btn-add" id="btnMaisban">adicionar</button>
+    <button class="btn-rem" id="btnMenosban">remover</button>
+    <br><br><h3>Descrição do Pedido:</h3>
+    <p class="desc" id="descricaoPedido"></p>
+    <p>Observação:</p>
+        <textarea style="font-family: Verdana; font-weight: 600; color: red;" name="obser" id="obser" cols="30" rows="3"></textarea><br><br>
+    <label for="endereco">ENDEREÇO PARA ENTREGA:</label><br><br>
+    <input size="30" style="border-radius: 10px; text-align: center;" type="text" id="endereco" name="endereco" placeholder="Rua ou Av. / N°" required><br><br>
+    <label for="endereco">DIGITE SEU NOME:</label><br><br>
+    <input size="30" style="border-radius: 10px; text-align: center; font-weight: 600;" type="text" id="nome1" name="nome1" placeholder="Nome" required><br><br>
+    <label for="formaPagamento">FORMA DE PAGAMENTO:</label><br><br>
+    <select style="border-radius: 10px; text-align: center;" id="formaPagamento" name="formaPagamento" required>
+        <option value="PIX">PIX</option>
+        <option value="Credito">Cartão de Crédito</option>
+        <option value="Debito">Cartão de Débito</option>
+        <option value="Dinheiro">Dinheiro</option>
+    </select><br><br>
+    <p class="total">Total: R$<span id="total">0,00</span></p>
+    <button class="btn-wha" id="btnEnviarPedido">Finalizar no WhatsApp</button>
+    <a id="carrinho2" href="index.html"><button class="btn-wha1" id="btnEnviarPedido">Voltar</button></a>
+    <p class="desc" id="descricaoPedido"></p>
+    <script>
+        let total = 0;
+        let quantidade = 1;
+
+        let pao = 2.00;
+        let pao1 = 2.00;
+        let pao2 = 1.00;
+        let pao3 = 2.00;
+        let carne = 4.00;
+        let filef = 4.00;
+        let filef1 = 6.00;
+        let queijo = 2.00;
+        let presunto = 2.00;
+        let bacon = 3.00;
+        let cala = 3.00;
+        let ovo = 2.00;
+        let sal = 1.00;
+        let che = 2.00;
+        let cat = 2.00;
+        let bar = 2.00;
+        let mos = 1.00;
+        let maio = 1.00;
+        let alf = 1.00;
+        let tom = 1.00;
+        let ceb = 2.00;
+        let mil = 1.00;
+        let bat = 1.00;
+        let ban = 2.00;
+        
+        let qtdPao = 0;
+        let qtdPao1 = 0;
+        let qtdPao2 = 0;
+        let qtdPao3 = 0;
+        let qtdCarne = 0;
+        let qtdfilef = 0;
+        let qtdfilef1 = 0;
+        let qtdQueijo = 0;
+        let qtdPresunto = 0;
+        let qtdBacon = 0;
+        let qtdcala = 0;
+        let qtdovo = 0;
+        let qtdsal = 0;
+        let qtdche = 0;
+        let qtdcat = 0;
+        let qtdbar = 0;
+        let qtdmos = 0;
+        let qtdmaio = 0;
+        let qtdalf = 0;
+        let qtdtom = 0;
+        let qtdceb = 0;
+        let qtdmil = 0;
+        let qtdbat = 0;
+        let qtdban = 0;
+        
+        document.getElementById('btnMaisPao').addEventListener('click', function() {
+            qtdPao++; total += 2;
+            document.getElementById('total').innerText = total.toFixed(2);
+            atualizarDescricaoPedido();});
+        document.getElementById('btnMenosPao').addEventListener('click', function() {
+            if (qtdPao > 0) {
+                qtdPao--;total -= 2;
+                document.getElementById('total').innerText = total.toFixed(2);
+                atualizarDescricaoPedido();}});
+
+        document.getElementById('btnMaisPao1').addEventListener('click', function() {
+            qtdPao1++; total += 2;
+            document.getElementById('total').innerText = total.toFixed(2);
+            atualizarDescricaoPedido();});
+        document.getElementById('btnMenosPao1').addEventListener('click', function() {
+            if (qtdPao1 > 0) {
+                qtdPao1--;total -= 2;
+                document.getElementById('total').innerText = total.toFixed(2);
+                atualizarDescricaoPedido();}});
+
+        document.getElementById('btnMaisPao2').addEventListener('click', function() {
+            qtdPao2++; total += 1;
+            document.getElementById('total').innerText = total.toFixed(2);
+            atualizarDescricaoPedido();});
+        document.getElementById('btnMenosPao2').addEventListener('click', function() {
+            if (qtdPao2 > 0) {
+                qtdPao2--;total -= 1;
+                document.getElementById('total').innerText = total.toFixed(2);
+                atualizarDescricaoPedido();}});
+
+         document.getElementById('btnMaisPao3').addEventListener('click', function() {
+            qtdPao3++; total += 2;
+            document.getElementById('total').innerText = total.toFixed(2);
+            atualizarDescricaoPedido();});
+        document.getElementById('btnMenosPao3').addEventListener('click', function() {
+            if (qtdPao3 > 0) {
+                qtdPao3--;total -= 2;
+                document.getElementById('total').innerText = total.toFixed(2);
+                atualizarDescricaoPedido();}});
+
+        document.getElementById('btnMaisCarne').addEventListener('click', function() {
+            qtdCarne++; total += 4;
+            document.getElementById('total').innerText = total.toFixed(2);
+            atualizarDescricaoPedido();});
+        document.getElementById('btnMenosCarne').addEventListener('click', function() {
+            if (qtdCarne > 0) {
+                qtdCarne--; total -= 4;
+                document.getElementById('total').innerText = total.toFixed(2);
+                atualizarDescricaoPedido();}});
+
+        document.getElementById('btnMaisfilef').addEventListener('click', function() {
+            qtdfilef++; total += 4;
+            document.getElementById('total').innerText = total.toFixed(2);
+            atualizarDescricaoPedido();});
+        document.getElementById('btnMenosfilef').addEventListener('click', function() {
+            if (qtdfilef > 0) {
+                qtdfilef--; total -= 4;
+                document.getElementById('total').innerText = total.toFixed(2);
+                atualizarDescricaoPedido();}});
+
+        document.getElementById('btnMaisfilef1').addEventListener('click', function() {
+            qtdfilef1++; total += 6;
+            document.getElementById('total').innerText = total.toFixed(2);
+            atualizarDescricaoPedido();});
+        document.getElementById('btnMenosfilef1').addEventListener('click', function() {
+            if (qtdfilef1 > 0) {
+                qtdfilef1--; total -= 6;
+                document.getElementById('total').innerText = total.toFixed(2);
+                atualizarDescricaoPedido();}});
+        
+        document.getElementById('btnMaisQueijo').addEventListener('click', function() {
+            qtdQueijo++; total += 2;
+            document.getElementById('total').innerText = total.toFixed(2);
+            atualizarDescricaoPedido();});
+        document.getElementById('btnMenosQueijo').addEventListener('click', function() {
+            if (qtdQueijo > 0) {
+                qtdQueijo--; total -= 2;
+                document.getElementById('total').innerText = total.toFixed(2);
+                atualizarDescricaoPedido();}});
+        
+        document.getElementById('btnMaisPresunto').addEventListener('click', function() {
+            qtdPresunto++; total += 2;
+            document.getElementById('total').innerText = total.toFixed(2);
+            atualizarDescricaoPedido();});
+        document.getElementById('btnMenosPresunto').addEventListener('click', function() {
+            if (qtdPresunto > 0) {
+                qtdPresunto--; total -= 2;
+                document.getElementById('total').innerText = total.toFixed(2);
+                atualizarDescricaoPedido();}});
+
+        document.getElementById('btnMaisBacon').addEventListener('click', function() {
+            qtdBacon++; total += 3;
+            document.getElementById('total').innerText = total.toFixed(2);
+            atualizarDescricaoPedido();});
+        document.getElementById('btnMenosBacon').addEventListener('click', function() {
+            if (qtdBacon > 0) {
+                qtdBacon--; total -= 3;
+                document.getElementById('total').innerText = total.toFixed(2);
+                atualizarDescricaoPedido();}});
+
+        document.getElementById('btnMaiscala').addEventListener('click', function() {
+            qtdcala++; total += 3;
+            document.getElementById('total').innerText = total.toFixed(2);
+            atualizarDescricaoPedido();});
+        document.getElementById('btnMenoscala').addEventListener('click', function() {
+            if (qtdcala > 0) {
+                qtdcala--; total -= 3;
+                document.getElementById('total').innerText = total.toFixed(2);
+                atualizarDescricaoPedido();}});
+
+        document.getElementById('btnMaisovo').addEventListener('click', function() {
+            qtdovo++; total += 2;
+            document.getElementById('total').innerText = total.toFixed(2);
+            atualizarDescricaoPedido();});
+        document.getElementById('btnMenosovo').addEventListener('click', function() {
+            if (qtdovo > 0) {
+                qtdovo--; total -= 2;
+                document.getElementById('total').innerText = total.toFixed(2);
+                atualizarDescricaoPedido();}});
+
+        document.getElementById('btnMaissal').addEventListener('click', function() {
+            qtdsal++; total += 1;
+            document.getElementById('total').innerText = total.toFixed(2);
+            atualizarDescricaoPedido();});
+        document.getElementById('btnMenossal').addEventListener('click', function() {
+            if (qtdsal > 0) {
+                qtdsal--; total -= 1;
+                document.getElementById('total').innerText = total.toFixed(2);
+                atualizarDescricaoPedido();}});
+
+        document.getElementById('btnMaische').addEventListener('click', function() {
+            qtdche++; total += 2;
+            document.getElementById('total').innerText = total.toFixed(2);
+            atualizarDescricaoPedido();});
+        document.getElementById('btnMenosche').addEventListener('click', function() {
+            if (qtdche > 0) {
+                qtdche--; total -= 2;
+                document.getElementById('total').innerText = total.toFixed(2);
+                atualizarDescricaoPedido();}});
+
+        document.getElementById('btnMaiscat').addEventListener('click', function() {
+            qtdcat++; total += 2;
+            document.getElementById('total').innerText = total.toFixed(2);
+            atualizarDescricaoPedido();});
+        document.getElementById('btnMenoscat').addEventListener('click', function() {
+            if (qtdcat > 0) {
+                qtdcat--; total -= 2;
+                document.getElementById('total').innerText = total.toFixed(2);
+                atualizarDescricaoPedido();}});
+
+        document.getElementById('btnMaisbar').addEventListener('click', function() {
+            qtdbar++; total += 2;
+            document.getElementById('total').innerText = total.toFixed(2);
+            atualizarDescricaoPedido();});
+        document.getElementById('btnMenosbar').addEventListener('click', function() {
+            if (qtdbar > 0) {
+                qtdbar--; total -= 2;
+                document.getElementById('total').innerText = total.toFixed(2);
+                atualizarDescricaoPedido();}});
+
+        document.getElementById('btnMaismos').addEventListener('click', function() {
+            qtdmos++; total += 1;
+            document.getElementById('total').innerText = total.toFixed(2);
+            atualizarDescricaoPedido();});
+        document.getElementById('btnMenosmos').addEventListener('click', function() {
+            if (qtdmos > 0) {
+                qtdmos--; total -= 1;
+                document.getElementById('total').innerText = total.toFixed(2);
+                atualizarDescricaoPedido();}});
+ 
+        document.getElementById('btnMaismaio').addEventListener('click', function() {
+            qtdmaio++; total += 1;
+            document.getElementById('total').innerText = total.toFixed(2);
+            atualizarDescricaoPedido();});
+        document.getElementById('btnMenosmaio').addEventListener('click', function() {
+            if (qtdmaio > 0) {
+                qtdmaio--; total -= 1;
+                document.getElementById('total').innerText = total.toFixed(2);
+                atualizarDescricaoPedido();}});
+
+        document.getElementById('btnMaisalf').addEventListener('click', function() {
+            qtdalf++; total += 1;
+            document.getElementById('total').innerText = total.toFixed(2);
+            atualizarDescricaoPedido();});
+        document.getElementById('btnMenosalf').addEventListener('click', function() {
+            if (qtdalf > 0) {
+                qtdalf--; total -= 1;
+                document.getElementById('total').innerText = total.toFixed(2);
+                atualizarDescricaoPedido();}});
+
+        document.getElementById('btnMaistom').addEventListener('click', function() {
+            qtdtom++; total += 1;
+            document.getElementById('total').innerText = total.toFixed(2);
+            atualizarDescricaoPedido();});
+        document.getElementById('btnMenostom').addEventListener('click', function() {
+            if (qtdtom > 0) {
+                qtdtom--; total -= 1;
+                document.getElementById('total').innerText = total.toFixed(2);
+                atualizarDescricaoPedido();}});
+
+        document.getElementById('btnMaisceb').addEventListener('click', function() {
+            qtdceb++; total += 2;
+            document.getElementById('total').innerText = total.toFixed(2);
+            atualizarDescricaoPedido();});
+        document.getElementById('btnMenosceb').addEventListener('click', function() {
+            if (qtdceb > 0) {
+                qtdceb--; total -= 2;
+                document.getElementById('total').innerText = total.toFixed(2);
+                atualizarDescricaoPedido();}});
+                
+        document.getElementById('btnMaismil').addEventListener('click', function() {
+            qtdmil++; total += 1;
+            document.getElementById('total').innerText = total.toFixed(2);
+            atualizarDescricaoPedido();});
+        document.getElementById('btnMenosmil').addEventListener('click', function() {
+            if (qtdmil > 0) {
+                qtdmil--; total -= 1;
+                document.getElementById('total').innerText = total.toFixed(2);
+                atualizarDescricaoPedido();}});
+
+        document.getElementById('btnMaisbat').addEventListener('click', function() {
+            qtdbat++; total += 1;
+            document.getElementById('total').innerText = total.toFixed(2);
+            atualizarDescricaoPedido();});
+        document.getElementById('btnMenosbat').addEventListener('click', function() {
+            if (qtdbat > 0) {
+                qtdbat--; total -= 1;
+                document.getElementById('total').innerText = total.toFixed(2);
+                atualizarDescricaoPedido();}});
+                
+        document.getElementById('btnMaisban').addEventListener('click', function() {
+            qtdban++; total += 2;
+            document.getElementById('total').innerText = total.toFixed(2);
+            atualizarDescricaoPedido();});
+        document.getElementById('btnMenosban').addEventListener('click', function() {
+            if (qtdban > 0) {
+                qtdban--; total -= 2;
+                document.getElementById('total').innerText = total.toFixed(2);
+                atualizarDescricaoPedido();}});
+        
+        function atualizarDescricaoPedido() {
+            let descricao = `Pedido: `;
+            if (qtdPao > 0) {
+                descricao += `${qtdPao}x Pão de hambúrguer, `;
+            }
+            if (qtdPao1 > 0) {
+                descricao += `${qtdPao1}x Pão de sal, `;
+            }
+            if (qtdPao2 > 0) {
+                descricao += `${qtdPao2}x Pão de forma, `;
+            }
+            if (qtdPao3 > 0) {
+                descricao += `${qtdPao3}x Pão de forma ao leite, `;
+            }
+            if (qtdCarne > 0) {
+                descricao += `${qtdCarne}x Carne, `;
+            }
+            if (qtdfilef > 0) {
+                descricao += `${qtdfilef}x Filé de frango, `;
+            }
+            if (qtdfilef1 > 0) {
+                descricao += `${qtdfilef1}x Filé, `;
+            }
+            if (qtdQueijo > 0) {
+                descricao += `${qtdQueijo}x Queijo, `;
+            }
+            if (qtdPresunto > 0) {
+                descricao += `${qtdPresunto}x Presunto, `;
+            }
+            if (qtdBacon > 0) {
+                descricao += `${qtdBacon}x Bacon, `;
+            }
+            if (qtdcala > 0) {
+                descricao += `${qtdcala}x Calabresa, `;
+            }
+            if (qtdovo > 0) {
+                descricao += `${qtdovo}x Ovo, `;
+            }
+            if (qtdsal > 0) {
+                descricao += `${qtdsal}x Salsicha, `;
+            }
+            if (qtdche > 0) {
+                descricao += `${qtdche}x Cheddar, `;
+            }
+            if (qtdcat > 0) {
+                descricao += `${qtdcat}x Catupiry, `;
+            }
+            if (qtdbar > 0) {
+                descricao += `${qtdbar}x Barbecue, `;
+            }
+            if (qtdmos > 0) {
+                descricao += `${qtdmos}x Mostarda, `;
+            }
+            if (qtdmaio > 0) {
+                descricao += `${qtdmaio}x Maionese temperada, `;
+            }
+            if (qtdalf > 0) {
+                descricao += `${qtdalf}x Alface, `;
+            }
+            if (qtdtom > 0) {
+                descricao += `${qtdtom}x Tomate, `;
+            }
+            if (qtdceb > 0) {
+                descricao += `${qtdceb}x Cebola, `;
+            }
+            if (qtdmil > 0) {
+                descricao += `${qtdmil}x Milho, `;
+            }
+            if (qtdbat > 0) {
+                descricao += `${qtdbat}x Batata palha, `;
+            }
+            if (qtdban > 0) {
+                descricao += `${qtdban}x Banana, `;
+            }
+            document.getElementById('descricaoPedido').textContent = descricao;
+            Swal.fire('Adicionado!');
+        }
+        
+        document.getElementById('btnEnviarPedido').addEventListener('click', function() {
+            let total = (qtdPao * pao) + (qtdPao1 * pao1) + (qtdPao3 * pao3) + (qtdfilef * filef) + (qtdfilef1 * filef1) + (qtdCarne * carne) + (qtdQueijo * queijo) + (qtdPresunto * presunto) + (qtdBacon * bacon) + (qtdcala * cala) + (qtdovo * ovo) + (qtdsal * sal) + (qtdche * che) + (qtdcat * cat) + (qtdbar * bar) + (qtdmos * mos) + (qtdmaio * maio) + (qtdalf * alf) + (qtdtom * tom) + (qtdceb * ceb) + (qtdmil * mil) + (qtdbat * bat) + (qtdban * ban); 
+            const endereco = document.getElementById('endereco').value;
+            const obser = document.getElementById('obser').value;
+            const nome1 = document.getElementById('nome1').value;
+            const formaPagamento = document.getElementById('formaPagamento').value;
+            let mensagem = ` \nNome: ${nome1} - \nEndereço: ${endereco}\nForma de Pagamento: ${formaPagamento}. 
+            - Observação: ${obser}. 
+             - Meu pedido. Total: R$${total.toFixed(2)}. ${document.getElementById('descricaoPedido').textContent}.`;
+            window.open(`https://api.whatsapp.com/send?phone=5599992261907&text=${encodeURIComponent(mensagem)}`, '_blank');
+        });
+    </script>
+    <a href="#carrinho2"><img class="car2" src="carrinho-de-compras.png"></a>
+</body>
+</html>
